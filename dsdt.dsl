@@ -527,7 +527,7 @@ DefinitionBlock ("", "DSDT", 2, "8225_", "8225_001", 0x00000001)
 
     Method (OSYS, 0, NotSerialized)
     {
-        Local0 = 0x10
+        Local0 = 0x16 /* default as "Windows 2006.1" */
         If (CondRefOf (_OSI, Local1))
         {
             If (_OSI ("Windows 2000"))
