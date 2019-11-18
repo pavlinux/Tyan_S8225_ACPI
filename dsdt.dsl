@@ -267,8 +267,9 @@ DefinitionBlock ("", "DSDT", 2, "8225_", "8225_001", 0x00000001)
         {
             RSTU = One
         }
-
-        PEWS = PEWS /* \PEWS */
+        /* I don't know ))) */
+        Local0 = PEWS /* <--- \PEWS */
+        PEWS = Local0 /* ---->\PEWS */
         BLNK = 0x03
         PMS7 = One
         PMSA = One
@@ -527,59 +528,57 @@ DefinitionBlock ("", "DSDT", 2, "8225_", "8225_001", 0x00000001)
 
     Method (OSYS, 0, NotSerialized)
     {
-        Local0 = 0x16 /* default as "Windows 2006.1" */
         If (CondRefOf (_OSI, Local1))
         {
             If (_OSI ("Windows 2000"))
             {
-                Local0 = 0x12
+                Return (0x12)
             }
 
             If (_OSI ("Windows 2001"))
             {
-                Local0 = 0x13
+                Return (0x13)
             }
 
             If (_OSI ("Windows 2001 SP1"))
             {
-                Local0 = 0x13
+                Return (0x13)
             }
 
             If (_OSI ("Windows 2001 SP2"))
             {
-                Local0 = 0x13
+                Return  (0x13)
             }
 
             If (_OSI ("Windows 2001.1"))
             {
-                Local0 = 0x14
+                Return (0x14)
             }
 
             If (_OSI ("Windows 2001.1 SP1"))
             {
-                Local0 = 0x14
+                Return (0x14)
             }
 
             If (_OSI ("Windows 2006"))
             {
-                Local0 = 0x15
+                Return (0x15)
             }
 
             If (_OSI ("Windows 2006.1"))
             {
-                Local0 = 0x16
+                Return (0x16)
             }
         }
         ElseIf (MCTH (_OS, "Microsoft Windows NT"))
         {
-            Local0 = 0x12
+            Return (0x12)
         }
         ElseIf (MCTH (_OS, "Microsoft WindowsME: Millennium Edition"))
         {
-            Local0 = 0x11
+            Return (0x11)
         }
-
-        Return (Local0)
+        Return (0x16) /* default "Windows 2006" */
     }
 
     Scope (_PR)
@@ -7262,8 +7261,8 @@ DefinitionBlock ("", "DSDT", 2, "8225_", "8225_001", 0x00000001)
 
             Method (_STA, 0, NotSerialized)  // _STA: Status
             {
-                Local7 = OSYS ()
-                If ((OSYS () >= 0x15))
+                Local7 = OSYS()
+                If ((Local7 >= 0x15))
                 {
                     If ((VOF != One))
                     {
@@ -7274,10 +7273,7 @@ DefinitionBlock ("", "DSDT", 2, "8225_", "8225_001", 0x00000001)
                         Return (Zero)
                     }
                 }
-                Else
-                {
-                    Return (Zero)
-                }
+                Return (Zero)
             }
 
             Method (_IFT, 0, NotSerialized)  // _IFT: IPMI Interface Type
