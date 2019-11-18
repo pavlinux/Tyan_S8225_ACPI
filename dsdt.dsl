@@ -3767,7 +3767,7 @@ DefinitionBlock ("", "DSDT", 2, "8225_", "8225_001", 0x00000001)
 
                     Method (STA, 1, NotSerialized)
                     {
-                        Acquire (ECMU, 0x5000)
+                        Acquire (ECMU, 0xFFFF)
                         CFG (Arg0)
                         Local1 = Zero
                         If (ACT)
@@ -3787,8 +3787,8 @@ DefinitionBlock ("", "DSDT", 2, "8225_", "8225_001", 0x00000001)
 
                     Method (RDMB, 1, Serialized)
                     {
-                        Acquire (ECMU, 0x1388)
-                        Acquire (MLMU, 0x1388)
+                        Acquire (ECMU, 0xFFFF)
+                        Acquire (MLMU, 0xFFFF)
                         CFG (0x05)
                         Name (IOBA, Zero)
                         IOBA = IOBH /* \_SB_.PCI0.SBRG.IOBH */
@@ -3802,15 +3802,15 @@ DefinitionBlock ("", "DSDT", 2, "8225_", "8225_001", 0x00000001)
                         }
 
                         MLIN = Arg0
-                        Return (MLDA) /* \_SB_.PCI0.SBRG.RDMB.MLDA */
                         Release (MLMU)
                         Release (ECMU)
+                        Return (MLDA) /* \_SB_.PCI0.SBRG.RDMB.MLDA */
                     }
 
                     Method (WRMB, 2, Serialized)
                     {
-                        Acquire (ECMU, 0x1388)
-                        Acquire (MLMU, 0x1388)
+                        Acquire (ECMU, 0xFFFF)
+                        Acquire (MLMU, 0xFFFF)
                         CFG (0x05)
                         Name (IOBA, Zero)
                         IOBA = IOBH /* \_SB_.PCI0.SBRG.IOBH */
@@ -3976,7 +3976,7 @@ DefinitionBlock ("", "DSDT", 2, "8225_", "8225_001", 0x00000001)
                             CreateByteField (RSRC, \_SB.PCI0.SBRG.ECIR._CRS._Y03._MAX, IO3)  // _MAX: Maximum Base Address
                             CreateByteField (RSRC, 0x05, IO4)
                             CreateWordField (RSRC, \_SB.PCI0.SBRG.ECIR._CRS._Y04._INT, IRQV)  // _INT: Interrupts
-                            Acquire (ECMU, 0x1388)
+                            Acquire (ECMU, 0xFFFF)
                             CFG (0x05)
                             If (ACT)
                             {
@@ -4046,7 +4046,7 @@ DefinitionBlock ("", "DSDT", 2, "8225_", "8225_001", 0x00000001)
                             CreateByteField (Arg0, 0x02, IO1)
                             CreateByteField (Arg0, 0x03, IO2)
                             CreateWordField (Arg0, 0x09, IRQV)
-                            Acquire (ECMU, 0x1388)
+                            Acquire (ECMU, 0xFFFF)
                             CFG (0x05)
                             IOBL = IO1 /* \_SB_.PCI0.SBRG.ECIR._SRS.IO1_ */
                             IOBH = IO2 /* \_SB_.PCI0.SBRG.ECIR._SRS.IO2_ */
@@ -6161,7 +6161,7 @@ DefinitionBlock ("", "DSDT", 2, "8225_", "8225_001", 0x00000001)
                     0x0000,             // Range Minimum
                     0x003F,             // Range Maximum
                     0x0000,             // Translation Offset
-                    0x0100,             // Length
+                    0x0040,             // Length (0x003F - 0x0000)
                     ,, _Y1F)
                 WordIO (ResourceProducer, MinFixed, MaxFixed, PosDecode, EntireRange,
                     0x0000,             // Granularity
@@ -7108,7 +7108,7 @@ DefinitionBlock ("", "DSDT", 2, "8225_", "8225_001", 0x00000001)
         Mutex (MUTE, 0x00)
         Method (RBPE, 1, Serialized)
         {
-            Acquire (MUTE, 0x03E8)
+            Acquire (MUTE, 0xFFFF)
             Local0 = (Arg0 + PCIB) /* \PCIB */
             OperationRegion (PCFG, SystemMemory, Local0, One)
             Field (PCFG, ByteAcc, NoLock, Preserve)
@@ -7122,7 +7122,7 @@ DefinitionBlock ("", "DSDT", 2, "8225_", "8225_001", 0x00000001)
 
         Method (RWPE, 1, Serialized)
         {
-            Acquire (MUTE, 0x03E8)
+            Acquire (MUTE, 0xFFFF)
             Arg0 &= 0xFFFFFFFE
             Local0 = (Arg0 + PCIB) /* \PCIB */
             OperationRegion (PCFG, SystemMemory, Local0, 0x02)
@@ -7137,7 +7137,7 @@ DefinitionBlock ("", "DSDT", 2, "8225_", "8225_001", 0x00000001)
 
         Method (RDPE, 1, Serialized)
         {
-            Acquire (MUTE, 0x03E8)
+            Acquire (MUTE, 0xFFFF)
             Arg0 &= 0xFFFFFFFC
             Local0 = (Arg0 + PCIB) /* \PCIB */
             OperationRegion (PCFG, SystemMemory, Local0, 0x04)
@@ -7152,7 +7152,7 @@ DefinitionBlock ("", "DSDT", 2, "8225_", "8225_001", 0x00000001)
 
         Method (WBPE, 2, Serialized)
         {
-            Acquire (MUTE, 0x0FFF)
+            Acquire (MUTE, 0xFFFF)
             Local0 = (Arg0 + PCIB) /* \PCIB */
             OperationRegion (PCFG, SystemMemory, Local0, One)
             Field (PCFG, ByteAcc, NoLock, Preserve)
@@ -7166,7 +7166,7 @@ DefinitionBlock ("", "DSDT", 2, "8225_", "8225_001", 0x00000001)
 
         Method (WWPE, 2, Serialized)
         {
-            Acquire (MUTE, 0x03E8)
+            Acquire (MUTE, 0xFFFF)
             Arg0 &= 0xFFFFFFFE
             Local0 = (Arg0 + PCIB) /* \PCIB */
             OperationRegion (PCFG, SystemMemory, Local0, 0x02)
@@ -7181,7 +7181,7 @@ DefinitionBlock ("", "DSDT", 2, "8225_", "8225_001", 0x00000001)
 
         Method (WDPE, 2, Serialized)
         {
-            Acquire (MUTE, 0x03E8)
+            Acquire (MUTE, 0xFFFF)
             Arg0 &= 0xFFFFFFFC
             Local0 = (Arg0 + PCIB) /* \PCIB */
             OperationRegion (PCFG, SystemMemory, Local0, 0x04)
@@ -7196,7 +7196,7 @@ DefinitionBlock ("", "DSDT", 2, "8225_", "8225_001", 0x00000001)
 
         Method (RWDP, 3, Serialized)
         {
-            Acquire (MUTE, 0x03E8)
+            Acquire (MUTE, 0xFFFF)
             Arg0 &= 0xFFFFFFFC
             Local0 = (Arg0 + PCIB) /* \PCIB */
             OperationRegion (PCFG, SystemMemory, Local0, 0x04)
@@ -7261,6 +7261,7 @@ DefinitionBlock ("", "DSDT", 2, "8225_", "8225_001", 0x00000001)
 
             Method (_STA, 0, NotSerialized)  // _STA: Status
             {
+                Local7 = Zero
                 Local7 = OSYS()
                 If ((Local7 >= 0x15))
                 {
