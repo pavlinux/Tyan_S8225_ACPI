@@ -578,7 +578,7 @@ DefinitionBlock ("", "DSDT", 2, "8225_", "8225_001", 0x00000001)
         {
             Return (0x11)
         }
-        Return (0x16) /* default "Windows 2006" */
+        Return (0x15) /* default "Windows 2006" */
     }
 
     Scope (_PR)
@@ -2847,12 +2847,12 @@ DefinitionBlock ("", "DSDT", 2, "8225_", "8225_001", 0x00000001)
 
             Method (NPTS, 1, NotSerialized)
             {
+		// Unused, external? //FIXME
             }
-
             Method (NWAK, 1, NotSerialized)
             {
+		// Unused, external? //FIXME
             }
-
             Device (RD8A)
             {
                 Name (_ADR, Zero)  // _ADR: Address
@@ -3971,9 +3971,9 @@ DefinitionBlock ("", "DSDT", 2, "8225_", "8225_001", 0x00000001)
                                 IRQNoFlags (_Y04)
                                     {}
                             })
-                            CreateByteField (RSRC, \_SB.PCI0.SBRG.ECIR._CRS._Y03._MIN, IO1)  // _MIN: Minimum Base Address
+                            CreateWordField (RSRC, \_SB.PCI0.SBRG.ECIR._CRS._Y03._MIN, IO1)  // _MIN: Minimum Base Address
                             CreateByteField (RSRC, 0x03, IO2)
-                            CreateByteField (RSRC, \_SB.PCI0.SBRG.ECIR._CRS._Y03._MAX, IO3)  // _MAX: Maximum Base Address
+                            CreateWordField (RSRC, \_SB.PCI0.SBRG.ECIR._CRS._Y03._MAX, IO3)  // _MAX: Maximum Base Address
                             CreateByteField (RSRC, 0x05, IO4)
                             CreateWordField (RSRC, \_SB.PCI0.SBRG.ECIR._CRS._Y04._INT, IRQV)  // _INT: Interrupts
                             Acquire (ECMU, 0xFFFF)
@@ -7291,18 +7291,22 @@ DefinitionBlock ("", "DSDT", 2, "8225_", "8225_001", 0x00000001)
 
     Method (NPTS, 1, NotSerialized)
     {
+	// Unused, external? //FIXME
     }
 
     Method (NWAK, 1, NotSerialized)
     {
+	// Unused, external? //FIXME
     }
 
     Method (NB2S, 1, NotSerialized)
     {
+	// Unused, external? //FIXME
     }
 
     Method (NB2W, 1, NotSerialized)
     {
+	// Unused, external? //FIXME
     }
 
     Scope (_SB)
@@ -7554,11 +7558,11 @@ DefinitionBlock ("", "DSDT", 2, "8225_", "8225_001", 0x00000001)
             CreateDWordField (CR64, \_SB.PCI0._Y37._MIN, _MN9)  // _MIN: Minimum Base Address
             CreateDWordField (CR64, \_SB.PCI0._Y37._MAX, _MX9)  // _MAX: Maximum Base Address
             CreateDWordField (CR64, \_SB.PCI0._Y37._LEN, _LN9)  // _LEN: Length
-            CreateDWordField (CR64, \_SB.PCI0._Y38._MIN, MN8L)  // _MIN: Minimum Base Address
+            CreateQWordField (CR64, \_SB.PCI0._Y38._MIN, MN8L)  // _MIN: Minimum Base Address
             CreateDWordField (CR64, (0xF8 + 0x04), MN8H)
-            CreateDWordField (CR64, \_SB.PCI0._Y38._MAX, MX8L)  // _MAX: Maximum Base Address
+            CreateQWordField (CR64, \_SB.PCI0._Y38._MAX, MX8L)  // _MAX: Maximum Base Address
             CreateDWordField (CR64, (0x0100 + 0x04), MX8H)
-            CreateDWordField (CR64, \_SB.PCI0._Y38._LEN, LN8L)  // _LEN: Length
+            CreateQWordField (CR64, \_SB.PCI0._Y38._LEN, LN8L)  // _LEN: Length
             CreateDWordField (CR64, (0x0110 + 0x04), LN8H)
             Method (_CRS, 0, NotSerialized)  // _CRS: Current Resource Settings
             {
@@ -7697,7 +7701,7 @@ DefinitionBlock ("", "DSDT", 2, "8225_", "8225_001", 0x00000001)
         WAKP [One] = Zero
         If (((Arg0 == 0x04) && (OSFL () == 0x02)))
         {
-            Sleep (0x0BB8)
+            Sleep (0x0040)
         }
 
         WSSB = ASSB /* \ASSB */
@@ -7736,7 +7740,7 @@ DefinitionBlock ("", "DSDT", 2, "8225_", "8225_001", 0x00000001)
     {
         Method (_INI, 0, NotSerialized)  // _INI: Initialize
         {
-            OSTY = 0x10
+            OSTY = 0x15
             If (CondRefOf (_OSI, Local1))
             {
                 If (_OSI ("Windows 2000"))
@@ -7770,7 +7774,7 @@ DefinitionBlock ("", "DSDT", 2, "8225_", "8225_001", 0x00000001)
             }
             ElseIf (MCTH (_OS, "Microsoft Windows NT"))
             {
-                Local0 = 0x12
+                OSTY = 0x12
             }
             Else
             {
@@ -7781,13 +7785,13 @@ DefinitionBlock ("", "DSDT", 2, "8225_", "8225_001", 0x00000001)
 
                 If (MCTH (_OS, "Linux"))
                 {
-                    OSTY = One
+                    OSTY = 0x15 /* default One */
                 }
             }
 
             If ((OSTY > 0x13))
             {
-                PWDE = One
+                PWDE = One // PciExpress Wakeup Disable Events
                 DPPF = Zero
             }
         }
@@ -7882,7 +7886,7 @@ DefinitionBlock ("", "DSDT", 2, "8225_", "8225_001", 0x00000001)
         If (Arg0)
         {
             \_SB.PCI0.SBRG.SIOS (Arg0)
-            NPTS (Arg0)
+            NPTS (Arg0) // Unused, external? //FIXME
             NB2S (Arg0)
             SPTS (Arg0)
         }
@@ -7891,8 +7895,8 @@ DefinitionBlock ("", "DSDT", 2, "8225_", "8225_001", 0x00000001)
     Method (WAK, 1, NotSerialized)
     {
         \_SB.PCI0.SBRG.SIOW (Arg0)
-        NWAK (Arg0)
-        NB2W (Arg0)
+        NWAK (Arg0) // Unused, external? //FIXME
+        NB2W (Arg0) // Unused, external? //FIXME
         SWAK (Arg0)
     }
 }
