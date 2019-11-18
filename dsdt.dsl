@@ -406,7 +406,7 @@ DefinitionBlock ("", "DSDT", 2, "8225_", "8225_001", 0x00000001)
     }
 
     Name (OSVR, Ones)
-    Method (OSFL, 0, NotSerialized)
+    Method (OSFL, 0, Serialized)
     {
         If ((OSVR != Ones))
         {
@@ -451,7 +451,7 @@ DefinitionBlock ("", "DSDT", 2, "8225_", "8225_001", 0x00000001)
         Return (OSVR) /* \OSVR */
     }
 
-    Method (MCTH, 2, NotSerialized)
+    Method (MCTH, 2, Serialized)
     {
         If ((SizeOf (Arg0) < SizeOf (Arg1)))
         {
@@ -3272,7 +3272,7 @@ DefinitionBlock ("", "DSDT", 2, "8225_", "8225_001", 0x00000001)
                         )))
                 }
 
-                Method (GTM, 1, NotSerialized)
+                Method (GTM, 1, Serialized)
                 {
                     CreateByteField (Arg0, Zero, PIT1)
                     CreateByteField (Arg0, One, PIT0)
@@ -3323,7 +3323,7 @@ DefinitionBlock ("", "DSDT", 2, "8225_", "8225_001", 0x00000001)
                     Return (BUF) /* \_SB_.PCI0.IDEC.GTM_.BUF_ */
                 }
 
-                Method (STM, 3, NotSerialized)
+                Method (STM, 3, Serialized)
                 {
                     CreateDWordField (Arg0, Zero, PIO0)
                     CreateDWordField (Arg0, 0x04, DMA0)
@@ -3377,7 +3377,7 @@ DefinitionBlock ("", "DSDT", 2, "8225_", "8225_001", 0x00000001)
                     Return (BUF) /* \_SB_.PCI0.IDEC.STM_.BUF_ */
                 }
 
-                Method (GTF, 2, NotSerialized)
+                Method (GTF, 2, Serialized)
                 {
                     CreateByteField (Arg1, Zero, MDT1)
                     CreateByteField (Arg1, One, MDT0)
@@ -3433,7 +3433,7 @@ DefinitionBlock ("", "DSDT", 2, "8225_", "8225_001", 0x00000001)
                 Device (PRID)
                 {
                     Name (_ADR, Zero)  // _ADR: Address
-                    Method (_GTM, 0, NotSerialized)  // _GTM: Get Timing Mode
+                    Method (_GTM, 0, Serialized)  // _GTM: Get Timing Mode
                     {
                         Name (BUF, Buffer (0x07)
                         {
@@ -3464,7 +3464,7 @@ DefinitionBlock ("", "DSDT", 2, "8225_", "8225_001", 0x00000001)
                         Return (GTM (BUF))
                     }
 
-                    Method (_STM, 3, NotSerialized)  // _STM: Set Timing Mode
+                    Method (_STM, 3, Serialized)  // _STM: Set Timing Mode
                     {
                         Name (BUF, Buffer (0x07)
                         {
@@ -3497,7 +3497,7 @@ DefinitionBlock ("", "DSDT", 2, "8225_", "8225_001", 0x00000001)
                     Device (P_D0)
                     {
                         Name (_ADR, Zero)  // _ADR: Address
-                        Method (_GTF, 0, NotSerialized)  // _GTF: Get Task File
+                        Method (_GTF, 0, Serialized)  // _GTF: Get Task File
                         {
                             Name (BUF, Buffer (0x05)
                             {
@@ -3529,7 +3529,7 @@ DefinitionBlock ("", "DSDT", 2, "8225_", "8225_001", 0x00000001)
                     Device (P_D1)
                     {
                         Name (_ADR, One)  // _ADR: Address
-                        Method (_GTF, 0, NotSerialized)  // _GTF: Get Task File
+                        Method (_GTF, 0, Serialized)  // _GTF: Get Task File
                         {
                             Name (BUF, Buffer (0x05)
                             {
@@ -3562,7 +3562,7 @@ DefinitionBlock ("", "DSDT", 2, "8225_", "8225_001", 0x00000001)
                 Device (SECD)
                 {
                     Name (_ADR, One)  // _ADR: Address
-                    Method (_GTM, 0, NotSerialized)  // _GTM: Get Timing Mode
+                    Method (_GTM, 0, Serialized)  // _GTM: Get Timing Mode
                     {
                         Name (BUF, Buffer (0x07)
                         {
@@ -3593,7 +3593,7 @@ DefinitionBlock ("", "DSDT", 2, "8225_", "8225_001", 0x00000001)
                         Return (GTM (BUF))
                     }
 
-                    Method (_STM, 3, NotSerialized)  // _STM: Set Timing Mode
+                    Method (_STM, 3, Serialized)  // _STM: Set Timing Mode
                     {
                         Name (BUF, Buffer (0x07)
                         {
@@ -3626,7 +3626,7 @@ DefinitionBlock ("", "DSDT", 2, "8225_", "8225_001", 0x00000001)
                     Device (S_D0)
                     {
                         Name (_ADR, Zero)  // _ADR: Address
-                        Method (_GTF, 0, NotSerialized)  // _GTF: Get Task File
+                        Method (_GTF, 0, Serialized)  // _GTF: Get Task File
                         {
                             Name (BUF, Buffer (0x05)
                             {
@@ -3658,7 +3658,7 @@ DefinitionBlock ("", "DSDT", 2, "8225_", "8225_001", 0x00000001)
                     Device (S_D1)
                     {
                         Name (_ADR, One)  // _ADR: Address
-                        Method (_GTF, 0, NotSerialized)  // _GTF: Get Task File
+                        Method (_GTF, 0, Serialized)  // _GTF: Get Task File
                         {
                             Name (BUF, Buffer (0x05)
                             {
@@ -3786,7 +3786,7 @@ DefinitionBlock ("", "DSDT", 2, "8225_", "8225_001", 0x00000001)
                         Return (Local1)
                     }
 
-                    Method (RDMB, 1, NotSerialized)
+                    Method (RDMB, 1, Serialized)
                     {
                         Acquire (ECMU, 0x1388)
                         Acquire (MLMU, 0x1388)
@@ -3808,7 +3808,7 @@ DefinitionBlock ("", "DSDT", 2, "8225_", "8225_001", 0x00000001)
                         Release (ECMU)
                     }
 
-                    Method (WRMB, 2, NotSerialized)
+                    Method (WRMB, 2, Serialized)
                     {
                         Acquire (ECMU, 0x1388)
                         Acquire (MLMU, 0x1388)
@@ -3959,7 +3959,7 @@ DefinitionBlock ("", "DSDT", 2, "8225_", "8225_001", 0x00000001)
                             Return (Local1)
                         }
 
-                        Method (_CRS, 0, NotSerialized)  // _CRS: Current Resource Settings
+                        Method (_CRS, 0, Serialized)  // _CRS: Current Resource Settings
                         {
                             Name (RSRC, ResourceTemplate ()
                             {
@@ -4075,7 +4075,7 @@ DefinitionBlock ("", "DSDT", 2, "8225_", "8225_001", 0x00000001)
                             }
                         }
 
-                        Method (IRCF, 2, NotSerialized)
+                        Method (IRCF, 2, Serialized)
                         {
                             Name (CONN, Zero)
                             If ((Arg0 == One))
@@ -5743,7 +5743,7 @@ DefinitionBlock ("", "DSDT", 2, "8225_", "8225_001", 0x00000001)
                     }
 
                     Name (PRIS, Zero)
-                    Method (_PS0, 0, NotSerialized)  // _PS0: Power State 0
+                    Method (_PS0, 0, Serialized)  // _PS0: Power State 0
                     {
                         OperationRegion (BAR, SystemMemory, STB5, 0x0400)
                         Field (BAR, AnyAcc, NoLock, Preserve)
@@ -5805,7 +5805,7 @@ DefinitionBlock ("", "DSDT", 2, "8225_", "8225_001", 0x00000001)
                     Device (P_D0)
                     {
                         Name (_ADR, Zero)  // _ADR: Address
-                        Method (_STA, 0, NotSerialized)  // _STA: Status
+                        Method (_STA, 0, Serialized)  // _STA: Status
                         {
                             OperationRegion (BAR, SystemMemory, STB5, 0x0400)
                             Field (BAR, AnyAcc, NoLock, Preserve)
@@ -5827,7 +5827,7 @@ DefinitionBlock ("", "DSDT", 2, "8225_", "8225_001", 0x00000001)
                         }
 
                         Name (S12P, Zero)
-                        Method (_PS0, 0, NotSerialized)  // _PS0: Power State 0
+                        Method (_PS0, 0, Serialized)  // _PS0: Power State 0
                         {
                             OperationRegion (BAR, SystemMemory, STB5, 0x0400)
                             Field (BAR, AnyAcc, NoLock, Preserve)
@@ -5861,7 +5861,7 @@ DefinitionBlock ("", "DSDT", 2, "8225_", "8225_001", 0x00000001)
                     Device (P_D1)
                     {
                         Name (_ADR, One)  // _ADR: Address
-                        Method (_STA, 0, NotSerialized)  // _STA: Status
+                        Method (_STA, 0, Serialized)  // _STA: Status
                         {
                             OperationRegion (BAR, SystemMemory, STB5, 0x0400)
                             Field (BAR, AnyAcc, NoLock, Preserve)
@@ -5883,7 +5883,7 @@ DefinitionBlock ("", "DSDT", 2, "8225_", "8225_001", 0x00000001)
                         }
 
                         Name (S12P, Zero)
-                        Method (_PS0, 0, NotSerialized)  // _PS0: Power State 0
+                        Method (_PS0, 0, Serialized)  // _PS0: Power State 0
                         {
                             OperationRegion (BAR, SystemMemory, STB5, 0x0400)
                             Field (BAR, AnyAcc, NoLock, Preserve)
@@ -5942,7 +5942,7 @@ DefinitionBlock ("", "DSDT", 2, "8225_", "8225_001", 0x00000001)
                         Return (Local1)
                     }
 
-                    Method (_PS0, 0, NotSerialized)  // _PS0: Power State 0
+                    Method (_PS0, 0, Serialized)  // _PS0: Power State 0
                     {
                         OperationRegion (BAR, SystemMemory, STB5, 0x0400)
                         Field (BAR, AnyAcc, NoLock, Preserve)
@@ -6003,7 +6003,7 @@ DefinitionBlock ("", "DSDT", 2, "8225_", "8225_001", 0x00000001)
                     Device (S_D0)
                     {
                         Name (_ADR, Zero)  // _ADR: Address
-                        Method (_STA, 0, NotSerialized)  // _STA: Status
+                        Method (_STA, 0, Serialized)  // _STA: Status
                         {
                             OperationRegion (BAR, SystemMemory, STB5, 0x0400)
                             Field (BAR, AnyAcc, NoLock, Preserve)
@@ -6025,7 +6025,7 @@ DefinitionBlock ("", "DSDT", 2, "8225_", "8225_001", 0x00000001)
                         }
 
                         Name (S12P, Zero)
-                        Method (_PS0, 0, NotSerialized)  // _PS0: Power State 0
+                        Method (_PS0, 0, Serialized)  // _PS0: Power State 0
                         {
                             OperationRegion (BAR, SystemMemory, STB5, 0x1000)
                             Field (BAR, AnyAcc, NoLock, Preserve)
@@ -6059,7 +6059,7 @@ DefinitionBlock ("", "DSDT", 2, "8225_", "8225_001", 0x00000001)
                     Device (S_D1)
                     {
                         Name (_ADR, One)  // _ADR: Address
-                        Method (_STA, 0, NotSerialized)  // _STA: Status
+                        Method (_STA, 0, Serialized)  // _STA: Status
                         {
                             OperationRegion (BAR, SystemMemory, STB5, 0x0400)
                             Field (BAR, AnyAcc, NoLock, Preserve)
@@ -6081,7 +6081,7 @@ DefinitionBlock ("", "DSDT", 2, "8225_", "8225_001", 0x00000001)
                         }
 
                         Name (S12P, Zero)
-                        Method (_PS0, 0, NotSerialized)  // _PS0: Power State 0
+                        Method (_PS0, 0, Serialized)  // _PS0: Power State 0
                         {
                             OperationRegion (BAR, SystemMemory, STB5, 0x0400)
                             Field (BAR, AnyAcc, NoLock, Preserve)
@@ -7107,7 +7107,7 @@ DefinitionBlock ("", "DSDT", 2, "8225_", "8225_001", 0x00000001)
         Name (XSST, 0x1A)
         Name (XRCT, 0x1C)
         Mutex (MUTE, 0x00)
-        Method (RBPE, 1, NotSerialized)
+        Method (RBPE, 1, Serialized)
         {
             Acquire (MUTE, 0x03E8)
             Local0 = (Arg0 + PCIB) /* \PCIB */
@@ -7121,7 +7121,7 @@ DefinitionBlock ("", "DSDT", 2, "8225_", "8225_001", 0x00000001)
             Return (XCFG) /* \_SB_.RBPE.XCFG */
         }
 
-        Method (RWPE, 1, NotSerialized)
+        Method (RWPE, 1, Serialized)
         {
             Acquire (MUTE, 0x03E8)
             Arg0 &= 0xFFFFFFFE
@@ -7136,7 +7136,7 @@ DefinitionBlock ("", "DSDT", 2, "8225_", "8225_001", 0x00000001)
             Return (XCFG) /* \_SB_.RWPE.XCFG */
         }
 
-        Method (RDPE, 1, NotSerialized)
+        Method (RDPE, 1, Serialized)
         {
             Acquire (MUTE, 0x03E8)
             Arg0 &= 0xFFFFFFFC
@@ -7151,7 +7151,7 @@ DefinitionBlock ("", "DSDT", 2, "8225_", "8225_001", 0x00000001)
             Return (XCFG) /* \_SB_.RDPE.XCFG */
         }
 
-        Method (WBPE, 2, NotSerialized)
+        Method (WBPE, 2, Serialized)
         {
             Acquire (MUTE, 0x0FFF)
             Local0 = (Arg0 + PCIB) /* \PCIB */
@@ -7165,7 +7165,7 @@ DefinitionBlock ("", "DSDT", 2, "8225_", "8225_001", 0x00000001)
             Release (MUTE)
         }
 
-        Method (WWPE, 2, NotSerialized)
+        Method (WWPE, 2, Serialized)
         {
             Acquire (MUTE, 0x03E8)
             Arg0 &= 0xFFFFFFFE
@@ -7180,7 +7180,7 @@ DefinitionBlock ("", "DSDT", 2, "8225_", "8225_001", 0x00000001)
             Release (MUTE)
         }
 
-        Method (WDPE, 2, NotSerialized)
+        Method (WDPE, 2, Serialized)
         {
             Acquire (MUTE, 0x03E8)
             Arg0 &= 0xFFFFFFFC
@@ -7195,7 +7195,7 @@ DefinitionBlock ("", "DSDT", 2, "8225_", "8225_001", 0x00000001)
             Release (MUTE)
         }
 
-        Method (RWDP, 3, NotSerialized)
+        Method (RWDP, 3, Serialized)
         {
             Acquire (MUTE, 0x03E8)
             Arg0 &= 0xFFFFFFFC
