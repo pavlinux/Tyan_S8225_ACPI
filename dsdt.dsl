@@ -5,20 +5,20 @@
  * 
  * Disassembling to symbolic ASL+ operators
  *
- * Disassembly of dsdt.dat, Mon Nov 18 12:37:34 2019
+ * Disassembly of dsdt.dat, Mon Nov 18 16:57:22 2019
  *
  * Original Table Header:
  *     Signature        "DSDT"
- *     Length           0x000064BD (25789)
+ *     Length           0x00006491 (25745)
  *     Revision         0x02
- *     Checksum         0x4A
+ *     Checksum         0xFE
  *     OEM ID           "8225_"
  *     OEM Table ID     "8225_001"
- *     OEM Revision     0x00000001 (1)
+ *     OEM Revision     0x00000003 (3)
  *     Compiler ID      "INTL"
- *     Compiler Version 0x20051117 (537202967)
+ *     Compiler Version 0x20181213 (538448403)
  */
-DefinitionBlock ("", "DSDT", 2, "8225_", "8225_001", 0x00000001)
+DefinitionBlock ("", "DSDT", 2, "8225_", "8225_001", 0x00000003)
 {
     Name (OSTY, Ones)
     OperationRegion (ACMS, SystemIO, 0x72, 0x02)
@@ -267,9 +267,9 @@ DefinitionBlock ("", "DSDT", 2, "8225_", "8225_001", 0x00000001)
         {
             RSTU = One
         }
-        /* I don't know ))) */
-        Local0 = PEWS /* <--- \PEWS */
-        PEWS = Local0 /* ---->\PEWS */
+
+        Local0 = PEWS /* \PEWS */
+        PEWS = Local0
         BLNK = 0x03
         PMS7 = One
         PMSA = One
@@ -547,7 +547,7 @@ DefinitionBlock ("", "DSDT", 2, "8225_", "8225_001", 0x00000001)
 
             If (_OSI ("Windows 2001 SP2"))
             {
-                Return  (0x13)
+                Return (0x13)
             }
 
             If (_OSI ("Windows 2001.1"))
@@ -578,7 +578,8 @@ DefinitionBlock ("", "DSDT", 2, "8225_", "8225_001", 0x00000001)
         {
             Return (0x11)
         }
-        Return (0x15) /* default "Windows 2006" */
+
+        Return (0x15)
     }
 
     Scope (_PR)
@@ -2847,12 +2848,12 @@ DefinitionBlock ("", "DSDT", 2, "8225_", "8225_001", 0x00000001)
 
             Method (NPTS, 1, NotSerialized)
             {
-		// Unused, external? //FIXME
             }
+
             Method (NWAK, 1, NotSerialized)
             {
-		// Unused, external? //FIXME
             }
+
             Device (RD8A)
             {
                 Name (_ADR, Zero)  // _ADR: Address
@@ -4079,15 +4080,15 @@ DefinitionBlock ("", "DSDT", 2, "8225_", "8225_001", 0x00000001)
                             Name (CONN, Zero)
                             If ((Arg0 == One))
                             {
-                                CONN |= RVID /* \_SB_.PCI0.SBRG.ECIR.IRCF.CONN */
-                                CONN |= 0x00013200 /* \_SB_.PCI0.SBRG.ECIR.IRCF.CONN */
+                                CONN |= RVID /* \RVID */
+                                CONN |= 0x00013200
                                 Return (CONN) /* \_SB_.PCI0.SBRG.ECIR.IRCF.CONN */
                             }
 
                             If ((Arg0 == 0x02))
                             {
                                 CONN = (GP64 << One)
-                                CONN |= GP51 /* \_SB_.PCI0.SBRG.ECIR.IRCF.CONN */
+                                CONN |= GP51 /* \GP51 */
                                 Return (CONN) /* \_SB_.PCI0.SBRG.ECIR.IRCF.CONN */
                             }
 
@@ -4289,7 +4290,7 @@ DefinitionBlock ("", "DSDT", 2, "8225_", "8225_001", 0x00000001)
                     Name (_CID, EisaId ("PNP030B"))  // _CID: Compatible ID
                     Method (_STA, 0, NotSerialized)  // _STA: Status
                     {
-                        Local0 = (One << 0x0A)
+                        Local0 = 0x0400
                         If ((IOST & Local0))
                         {
                             Return (0x0F)
@@ -4323,7 +4324,7 @@ DefinitionBlock ("", "DSDT", 2, "8225_", "8225_001", 0x00000001)
                     Name (_CID, EisaId ("PNP0F13") /* PS/2 Mouse */)  // _CID: Compatible ID
                     Method (_STA, 0, NotSerialized)  // _STA: Status
                     {
-                        Local0 = (One << 0x0C)
+                        Local0 = 0x1000
                         If ((IOST & Local0))
                         {
                             Return (0x0F)
@@ -4352,7 +4353,7 @@ DefinitionBlock ("", "DSDT", 2, "8225_", "8225_001", 0x00000001)
                     })
                     Method (_CRS, 0, NotSerialized)  // _CRS: Current Resource Settings
                     {
-                        Local0 = (One << 0x0A)
+                        Local0 = 0x0400
                         If ((IOST & Local0))
                         {
                             Return (M2R0) /* \_SB_.PCI0.SBRG.PS2M.M2R0 */
@@ -4779,7 +4780,7 @@ DefinitionBlock ("", "DSDT", 2, "8225_", "8225_001", 0x00000001)
                 Method (SIOK, 1, NotSerialized)
                 {
                     ENFG (0x0A)
-                    OPT3 &= 0xFF /* \_SB_.PCI0.SBRG.OPT3 */
+                    OPT3 &= 0xFF
                     Local0 = (Arg0 & One)
                     OPT2 |= Local0
                     ACTR = (Arg0 & One)
@@ -4969,7 +4970,7 @@ DefinitionBlock ("", "DSDT", 2, "8225_", "8225_001", 0x00000001)
                 {
                     ENFG (CGLD (Arg0))
                     Local1 = (IOAH << 0x08)
-                    Local1 |= IOAL
+                    Local1 |= IOAL /* \_SB_.PCI0.SBRG.IOAL */
                     If (((DMCH < 0x04) && ((Local1 = (DMCH & 0x03)) != Zero)))
                     {
                         RDMA (Arg0, Arg1, Local1++)
@@ -5029,7 +5030,7 @@ DefinitionBlock ("", "DSDT", 2, "8225_", "8225_001", 0x00000001)
                 {
                     ENFG (CGLD (Arg0))
                     IO11 = (IOAH << 0x08)
-                    IO11 |= IOAL /* \_SB_.PCI0.SBRG.IO11 */
+                    IO11 |= IOAL /* \_SB_.PCI0.SBRG.IOAL */
                     IO12 = IO11 /* \_SB_.PCI0.SBRG.IO11 */
                     Local0 = (FindSetRightBit (IO11) - One)
                     LEN1 = (One << Local0)
@@ -5063,7 +5064,7 @@ DefinitionBlock ("", "DSDT", 2, "8225_", "8225_001", 0x00000001)
                     CreateWordField (Arg0, 0x02, IO11)
                     ENFG (CGLD (Arg1))
                     Local1 = (IOAH << 0x08)
-                    Local1 |= IOAL
+                    Local1 |= IOAL /* \_SB_.PCI0.SBRG.IOAL */
                     RRIO (Arg1, Zero, Local1, 0x08)
                     RRIO (Arg1, One, IO11, 0x08)
                     IOAL = (IO11 & 0xFF)
@@ -5192,7 +5193,7 @@ DefinitionBlock ("", "DSDT", 2, "8225_", "8225_001", 0x00000001)
                             ML04 = 0x1000
                         }
 
-                        Local0 = (0x05 << 0x0A)
+                        Local0 = 0x1400
                         If ((IOST & Local0))
                         {
                             Return (CRS) /* \_SB_.PCI0.SBRG.OMSC.CRS_ */
@@ -5536,8 +5537,8 @@ DefinitionBlock ("", "DSDT", 2, "8225_", "8225_001", 0x00000001)
                             GP2L = GPLN /* \GPLN */
                         }
 
-                        Local0 = (One << 0x0A)
-                        Local1 = (One << 0x0C)
+                        Local0 = 0x0400
+                        Local1 = 0x1000
                         Local0 = ((IOST & Local0) | (IOST & Local1))
                         CreateByteField (CRS, \_SB.PCI0.SBRG.RMSC._Y1D._LEN, KBL0)  // _LEN: Length
                         CreateByteField (CRS, \_SB.PCI0.SBRG.RMSC._Y1E._LEN, KBL1)  // _LEN: Length
@@ -6161,7 +6162,7 @@ DefinitionBlock ("", "DSDT", 2, "8225_", "8225_001", 0x00000001)
                     0x0000,             // Range Minimum
                     0x003F,             // Range Maximum
                     0x0000,             // Translation Offset
-                    0x0040,             // Length (0x003F - 0x0000)
+                    0x0040,             // Length
                     ,, _Y1F)
                 WordIO (ResourceProducer, MinFixed, MaxFixed, PosDecode, EntireRange,
                     0x0000,             // Granularity
@@ -7262,7 +7263,7 @@ DefinitionBlock ("", "DSDT", 2, "8225_", "8225_001", 0x00000001)
             Method (_STA, 0, NotSerialized)  // _STA: Status
             {
                 Local7 = Zero
-                Local7 = OSYS()
+                Local7 = OSYS ()
                 If ((Local7 >= 0x15))
                 {
                     If ((VOF != One))
@@ -7274,6 +7275,7 @@ DefinitionBlock ("", "DSDT", 2, "8225_", "8225_001", 0x00000001)
                         Return (Zero)
                     }
                 }
+
                 Return (Zero)
             }
 
@@ -7291,22 +7293,18 @@ DefinitionBlock ("", "DSDT", 2, "8225_", "8225_001", 0x00000001)
 
     Method (NPTS, 1, NotSerialized)
     {
-	// Unused, external? //FIXME
     }
 
     Method (NWAK, 1, NotSerialized)
     {
-	// Unused, external? //FIXME
     }
 
     Method (NB2S, 1, NotSerialized)
     {
-	// Unused, external? //FIXME
     }
 
     Method (NB2W, 1, NotSerialized)
     {
-	// Unused, external? //FIXME
     }
 
     Scope (_SB)
@@ -7559,11 +7557,11 @@ DefinitionBlock ("", "DSDT", 2, "8225_", "8225_001", 0x00000001)
             CreateDWordField (CR64, \_SB.PCI0._Y37._MAX, _MX9)  // _MAX: Maximum Base Address
             CreateDWordField (CR64, \_SB.PCI0._Y37._LEN, _LN9)  // _LEN: Length
             CreateQWordField (CR64, \_SB.PCI0._Y38._MIN, MN8L)  // _MIN: Minimum Base Address
-            CreateDWordField (CR64, (0xF8 + 0x04), MN8H)
+            CreateDWordField (CR64, 0xFC, MN8H)
             CreateQWordField (CR64, \_SB.PCI0._Y38._MAX, MX8L)  // _MAX: Maximum Base Address
-            CreateDWordField (CR64, (0x0100 + 0x04), MX8H)
+            CreateDWordField (CR64, 0x0104, MX8H)
             CreateQWordField (CR64, \_SB.PCI0._Y38._LEN, LN8L)  // _LEN: Length
-            CreateDWordField (CR64, (0x0110 + 0x04), LN8H)
+            CreateDWordField (CR64, 0x0114, LN8H)
             Method (_CRS, 0, NotSerialized)  // _CRS: Current Resource Settings
             {
                 Local0 = MG1L /* \MG1L */
@@ -7701,7 +7699,7 @@ DefinitionBlock ("", "DSDT", 2, "8225_", "8225_001", 0x00000001)
         WAKP [One] = Zero
         If (((Arg0 == 0x04) && (OSFL () == 0x02)))
         {
-            Sleep (0x0040)
+            Sleep (0x40)
         }
 
         WSSB = ASSB /* \ASSB */
@@ -7785,13 +7783,13 @@ DefinitionBlock ("", "DSDT", 2, "8225_", "8225_001", 0x00000001)
 
                 If (MCTH (_OS, "Linux"))
                 {
-                    OSTY = 0x15 /* default One */
+                    OSTY = 0x15
                 }
             }
 
             If ((OSTY > 0x13))
             {
-                PWDE = One // PciExpress Wakeup Disable Events
+                PWDE = One
                 DPPF = Zero
             }
         }
@@ -7886,7 +7884,7 @@ DefinitionBlock ("", "DSDT", 2, "8225_", "8225_001", 0x00000001)
         If (Arg0)
         {
             \_SB.PCI0.SBRG.SIOS (Arg0)
-            NPTS (Arg0) // Unused, external? //FIXME
+            NPTS (Arg0)
             NB2S (Arg0)
             SPTS (Arg0)
         }
@@ -7895,8 +7893,8 @@ DefinitionBlock ("", "DSDT", 2, "8225_", "8225_001", 0x00000001)
     Method (WAK, 1, NotSerialized)
     {
         \_SB.PCI0.SBRG.SIOW (Arg0)
-        NWAK (Arg0) // Unused, external? //FIXME
-        NB2W (Arg0) // Unused, external? //FIXME
+        NWAK (Arg0)
+        NB2W (Arg0)
         SWAK (Arg0)
     }
 }
